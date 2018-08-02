@@ -6,4 +6,8 @@
     <RootNamespace>gh_contributor</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.2.1" />
+  </ItemGroup>
+
 </Project>

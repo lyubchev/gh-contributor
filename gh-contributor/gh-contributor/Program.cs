@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommandLine;
+using System;
 
 namespace gh_contributor
 {
@@ -6,7 +7,13 @@ namespace gh_contributor
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var result = Parser.Default.ParseArguments<ClearOptions, FillHelpOptions, RunOptions, ResetOptions>(args);
+            result
+            .WithParsed<ClearOptions>(opts => opts.Clear())
+            .WithParsed<FillHelpOptions>(opts => opts.GiveInfo())
+            .WithParsed<RunOptions>(opts => opts.GiveInfo())
+            .WithParsed<ResetOptions>(opts => opts.GiveInfo())
+            .WithNotParsed(err => Console.WriteLine(err));
         }
     }
 }
