@@ -32,10 +32,16 @@ namespace gh_contributor
         [Option('d', "dates", Required = true, HelpText = "Date(s) to be filled")]
         public string Dates { get; set; }
 
-        [Option('p', "pattern", Required = true, HelpText = "Pattern to be used")]
+        [Option('p', "pattern", Required = false, HelpText = "Pattern to be used")]
         public string Pattern { get; set; }
 
+        [Option('c', "commits", Required = false, HelpText = "Commits for each date")]
+        public int CommitsPerDay { get; set; } = 5;
 
+        public void RunFill()
+        {
+
+        }
     }
 
     [Verb("reset", HelpText = "Resets local user settings.")]
