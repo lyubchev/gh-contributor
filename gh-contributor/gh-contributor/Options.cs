@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using LibGit2Sharp;
+using System.IO;
+using System.Linq;
 
 namespace gh_contributor
 {
@@ -29,18 +32,58 @@ namespace gh_contributor
     [Verb("run-fill", HelpText = "Starts new session.")]
     class RunOptions
     {
-        [Option('d', "dates", Required = true, HelpText = "Date(s) to be filled")]
+        [Option('d', "dates", Required = true, HelpText = "Date(s) to be filled.")]
         public string Dates { get; set; }
 
-        [Option('p', "pattern", Required = false, HelpText = "Pattern to be used")]
+        [Option("duration", Required = false, HelpText = "The amount of dates after the original one.")]
+        public int Duration { get; set; } = 0;
+
+        [Option('p', "pattern", Required = false, HelpText = "Pattern to be used.")]
         public string Pattern { get; set; }
 
-        [Option('c', "commits", Required = false, HelpText = "Commits for each date")]
+        [Option('c', "commits", Required = false, HelpText = "Commits for each date.")]
         public int CommitsPerDay { get; set; } = 5;
+
+        List<DateTime> DatesList = new List<DateTime>();
 
         public void RunFill()
         {
 
+            string folderName = Utility.RandomString(10);
+            Directory.CreateDirectory(folderName);
+
+            ParseAndAddDuration(Dates.Split(' '));
+            Repository.Init(folderName);
+            using (var repo = new Repository(folderName))
+            {
+                foreach (var date in DatesList)
+                {
+                    for (int i = 0; i < CommitsPerDay; i++)
+                    {
+                        string content = $"I ❤ GitHub! {date.ToString()}{Environment.NewLine}";
+                        File.AppendAllText(Path.Combine(repo.Info.WorkingDirectory, "README.md"), content);
+                        repo.Index.Add("README.md");
+                        Commands.Stage(repo, "*");
+                        Signature author = new Signature(LocalUser.Username, LocalUser.Email, date);
+                        Signature committer = author;
+
+                        Commit commit = repo.Commit("Dummit!", author, committer);
+                    }
+                }
+            }
+        }
+
+        private void ParseAndAddDuration(string[] dates)
+        {
+            foreach (var date in dates)
+            {
+                DatesList.Add(DateTime.Parse(date));
+            }
+
+            for (int i = 0; i < Duration; i++)
+            {
+                DatesList.Add(DatesList[DatesList.Count - i].AddDays(i));
+            }
         }
     }
 
