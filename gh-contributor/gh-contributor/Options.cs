@@ -14,7 +14,7 @@ namespace gh_contributor
         }
     }
 
-    [Verb("fill help", HelpText = "Outputs information about starting a fill session.")]
+    [Verb("fill-help", HelpText = "Outputs information about starting a fill session.")]
     class FillHelpOptions
     {
         public void GiveInfo()
@@ -26,20 +26,25 @@ namespace gh_contributor
         }
     }
 
-    [Verb("run fill", HelpText = "Starts new session.")]
+    [Verb("run-fill", HelpText = "Starts new session.")]
     class RunOptions
     {
-        [Option(' ', "fill help", Required = true, HelpText = "Input file to be processed.")]
-        public string InputFile { get; set; }
+        [Option('d', "dates", Required = true, HelpText = "Date(s) to be filled")]
+        public string Dates { get; set; }
+
+        [Option('p', "pattern", Required = true, HelpText = "Pattern to be used")]
+        public string Pattern { get; set; }
+
+
     }
 
     [Verb("reset", HelpText = "Resets local user settings.")]
     class ResetOptions
     {
-        [Option('u', "username", Required = true, HelpText = "Resets username only")]
+        [Option('u', "username", Required = false, HelpText = "Resets username only")]
         public bool ResetUsername { get; set; }
 
-        [Option('e', "email", Required = true, HelpText = "Resets email only")]
+        [Option('e', "email", Required = false, HelpText = "Resets email only")]
         public bool ResetEmail { get; set; }
 
         public void Reset()
@@ -48,9 +53,17 @@ namespace gh_contributor
             {
                 Utility.ResetUserSettings();
             }
-            else if(ResetEmail)
+            else if(ResetUsername && ResetEmail)
             {
                 Utility.ResetUserSettings();
+            }
+            else if(ResetUsername)
+            {
+                Utility.ResetUsername();
+            }
+            else if(ResetEmail)
+            {
+                Utility.ResetEmail();
             }
         }
     }

@@ -39,6 +39,18 @@ namespace gh_contributor
             File.WriteAllText(Path.Combine(path, @"config.txt"), null);
         }
 
+        public static void ResetUsername()
+        {
+            string email = LoadUserSettings().Split(Environment.NewLine)[1];
+            SaveUserSettings("", email);
+        }
+
+        public static void ResetEmail()
+        {
+            string username = LoadUserSettings().Split(Environment.NewLine)[0];
+            SaveUserSettings(username, "");
+        }
+
         public static void ProcessPattern(string pattern, DateTime date, ref List<DateTime> dates)
         {
             int size = int.Parse(pattern.Substring(pattern.LastIndexOf('('), pattern.LastIndexOf(')')));
