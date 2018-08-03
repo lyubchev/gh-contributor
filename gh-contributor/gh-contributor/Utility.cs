@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace gh_contributor
 {
-    class Utility
+    static class Utility
     {
         private static Random random = new Random();
 

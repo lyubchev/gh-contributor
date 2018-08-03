@@ -7,7 +7,7 @@ namespace gh_contributor
     {
         static void Main(string[] args)
         {
-            
+
             string userSettings = Utility.LoadUserSettings();
             if (userSettings != "")
             {
@@ -28,9 +28,9 @@ namespace gh_contributor
             result
             .WithParsed<ClearOptions>(opts => opts.Clear())
             .WithParsed<FillHelpOptions>(opts => opts.GiveInfo())
-            .WithParsed<RunOptions>(opts => opts.OutputDates())
+            .WithParsed<RunOptions>(opts => opts.RunFill())
             .WithParsed<ResetOptions>(opts => opts.Reset())
-            .WithNotParsed(err => Console.WriteLine(err));
+            .WithNotParsed(err => Console.WriteLine("Please pass paramaters"));
         }
     }
 }

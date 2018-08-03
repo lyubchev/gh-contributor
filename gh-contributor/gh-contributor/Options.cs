@@ -33,22 +33,21 @@ namespace gh_contributor
     class RunOptions
     {
         [Option('d', "dates", Required = true, HelpText = "Date(s) to be filled.")]
-        public string Dates { get; set; }
+        private string Dates { get; set; }
 
         [Option("duration", Required = false, HelpText = "The amount of dates after the original one.")]
-        public int Duration { get; set; } = 0;
+        private int Duration { get; set; } = 0;
 
         [Option('p', "pattern", Required = false, HelpText = "Pattern to be used.")]
-        public string Pattern { get; set; }
+        private string Pattern { get; set; }
 
         [Option('c', "commits", Required = false, HelpText = "Commits for each date.")]
-        public int CommitsPerDay { get; set; } = 5;
+        private int CommitsPerDay { get; set; } = 5;
 
         List<DateTime> DatesList = new List<DateTime>();
 
         public void RunFill()
         {
-
             string folderName = Utility.RandomString(10);
             Directory.CreateDirectory(folderName);
 
@@ -91,10 +90,10 @@ namespace gh_contributor
     class ResetOptions
     {
         [Option('u', "username", Required = false, HelpText = "Resets username only")]
-        public bool ResetUsername { get; set; }
+        private bool ResetUsername { get; set; }
 
         [Option('e', "email", Required = false, HelpText = "Resets email only")]
-        public bool ResetEmail { get; set; }
+        private bool ResetEmail { get; set; }
 
         public void Reset()
         {
